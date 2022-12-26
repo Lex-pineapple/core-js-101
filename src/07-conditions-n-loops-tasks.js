@@ -27,10 +27,12 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (!(num % 5) && !(num % 3)) return 'FizzBuzz';
+  if (!(num % 5)) return 'Buzz';
+  if (!(num % 3)) return 'Fizz';
+  return num;
 }
-
 
 /**
  * Returns the factorial of the specified integer n.
@@ -43,10 +45,13 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  let retVal = 1;
+  for (let i = 0; i < n; i += 1) {
+    retVal *= (n - i);
+  }
+  return retVal;
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -60,10 +65,13 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  let retVal = 0;
+  for (let i = n1; i < n2 + 1; i += 1) {
+    retVal += i;
+  }
+  return retVal;
 }
-
 
 /**
  * Returns true, if a triangle can be built with the specified sides a, b, c
@@ -80,10 +88,10 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  if ((a + b) <= c || (a + c) <= b || (b + c) <= a) return false;
+  return true;
 }
-
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
@@ -117,10 +125,11 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  if (rect1.left > (rect2.left + rect2.width) || (rect1.left + rect1.width) < rect2.left
+  || rect1.top > (rect2.top + rect2.height) || (rect1.top + rect1.height) < rect2.top) return false;
+  return true;
 }
-
 
 /**
  * Returns true, if point lies inside the circle, otherwise false.
@@ -148,10 +157,12 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  if (((point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2) < circle.radius ** 2) {
+    return true;
+  }
+  return false;
 }
-
 
 /**
  * Returns the first non repeated char in the specified strings otherwise returns null.
@@ -164,10 +175,21 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let retVal;
+  for (let i = 0; i < str.length; i += 1) {
+    let count = 0;
+    for (let j = 0; j < str.length; j += 1) {
+      if (str[i] === str[j]) count += 1;
+    }
+    if (count <= 1) {
+      retVal = str[i];
+      break;
+    }
+    retVal = null;
+  }
+  return retVal;
 }
-
 
 /**
  * Returns the string representation of math interval,
