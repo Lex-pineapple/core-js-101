@@ -6,7 +6,6 @@
  *                                                                                                *
  ************************************************************************************************ */
 
-
 /**
  * Returns the 'Fizz','Buzz' or an original number using the following rules:
  * 1) return original number
@@ -213,8 +212,23 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let retVal = '';
+  let stVal;
+  let endVal;
+  if (a > b) {
+    stVal = b;
+    endVal = a;
+  } else {
+    stVal = a;
+    endVal = b;
+  }
+  if (isStartIncluded) retVal += `[${stVal}, `;
+  else retVal += `(${stVal}, `;
+  if (isEndIncluded) retVal += `${endVal}]`;
+  else retVal += `${endVal})`;
+  return retVal;
+  // throw new Error('Not implemented');
 }
 
 
@@ -230,8 +244,12 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  let retStr = '';
+  for (let i = str.length - 1; i >= 0; i -= 1) {
+    retStr += str[i];
+  }
+  return retStr;
 }
 
 
@@ -247,8 +265,12 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  let retStr = '';
+  for (let i = String(num).length - 1; i >= 0; i -= 1) {
+    retStr += String(num)[i];
+  }
+  return Number(retStr);
 }
 
 
@@ -272,8 +294,22 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const retVal = String(ccn).replace(/\D/g, '');
+  let chcksum = 0;
+  let even = false;
+
+  for (let n = retVal.length - 1; n >= 0; n -= 1) {
+    let digit = parseInt(retVal.charAt(n), 10);
+    if (even) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    chcksum += digit;
+    even = !even;
+  }
+
+  return (chcksum % 10) === 0;
 }
 
 /**
@@ -290,10 +326,18 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
-}
+function getDigitalRoot(num) {
+  let retVal = 0;
+  let newNum = num;
+  for (let i = 0; i < String(num).length; i += 1) {
+    retVal += newNum % 10;
+    newNum = Math.floor(newNum / 10);
+  }
+  if (retVal > 9) return getDigitalRoot(retVal);
+  return retVal;
 
+  // throw new Error('Not implemented');
+}
 
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
@@ -316,10 +360,35 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const char = str[i];
+    if (char === '{' || char === '(' || char === '[' || char === '<') {
+      stack.push(char);
+      // continue;
+    }
+    if (stack.length === 0) return false;
+    let check;
+    if (char === ')') {
+      check = stack.pop();
+      if (check === '{' || check === '[' || check === '<') return false;
+    }
+    if (char === '}') {
+      check = stack.pop();
+      if (check === '(' || check === '[' || check === '<') return false;
+    }
+    if (char === ']') {
+      check = stack.pop();
+      if (check === '{' || check === '(' || check === '<') return false;
+    }
+    if (char === '>') {
+      check = stack.pop();
+      if (check === '{' || check === '(' || check === '[') return false;
+    }
+  }
+  return stack.length === 0;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
@@ -341,10 +410,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
-
 
 /**
  * Returns the common directory path for specified array of full filenames.
@@ -358,10 +426,18 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const paths = pathes.map((i) => i.split('/'));
+  const transposedArr = paths[0].map((_, colIdx) => paths.map((row) => row[colIdx]));
+  const commonPaths = transposedArr.filter((arr) => arr.every((e) => e === arr[0]));
+  const commonPath = [];
+  for (let i = 0; i < commonPaths.length; i += 1) {
+    commonPath.push(commonPaths[i][0]);
+  }
+  if (commonPath.length === 0) return '';
+  if (commonPath[0].length === 0 && commonPath.length === 0) return '/';
+  return `${commonPath.join('/')}/`;
 }
-
 
 /**
  * Returns the product of two specified matrixes.

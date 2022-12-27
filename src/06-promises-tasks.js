@@ -28,10 +28,14 @@
  *      .catch((error) => console.log(error.message)) // 'Error: Wrong parameter is passed!
  *                                                    //  Ask her again.';
  */
-function willYouMarryMe(/* isPositiveAnswer */) {
-  throw new Error('Not implemented');
+function willYouMarryMe(isPositiveAnswer) {
+  return new Promise((resolve, reject) => {
+    if (typeof isPositiveAnswer === 'boolean' && isPositiveAnswer) resolve('Hooray!!! She said "Yes"!');
+    if (typeof isPositiveAnswer === 'boolean' && !isPositiveAnswer) resolve('Oh no, she said "No".');
+    if (typeof isPositiveAnswer !== 'boolean') reject(new Error('Wrong parameter is passed! Ask her again.'));
+  });
+  // throw new Error('Not implemented');
 }
-
 
 /**
  * Return Promise object that should be resolved with array containing plain values.
@@ -48,8 +52,8 @@ function willYouMarryMe(/* isPositiveAnswer */) {
  *    })
  *
  */
-function processAllPromises(/* array */) {
-  throw new Error('Not implemented');
+function processAllPromises(array) {
+  return Promise.all(array);
 }
 
 /**
@@ -71,8 +75,9 @@ function processAllPromises(/* array */) {
  *    })
  *
  */
-function getFastestPromise(/* array */) {
-  throw new Error('Not implemented');
+function getFastestPromise(array) {
+  return Promise.race(array);
+  // throw new Error('Not implemented');
 }
 
 /**
@@ -93,8 +98,25 @@ function getFastestPromise(/* array */) {
  *
  */
 function chainPromises(/* array, action */) {
+  // return array.reduce(async (acc, promise) => {
+  //   const arr = await acc;
+  //   try {
+  //     const value = await promise;
+  //     return [...arr, value];
+  //   } catch (err) {
+  //     return arr;
+  //   }
+  // }, Promise.resolve([])).then((res) => res.reduce((acc, num) => action(acc, num), 0));
   throw new Error('Not implemented');
 }
+
+// console.log(chainPromises([Promise.resolve(1), Promise.resolve(2),
+// Promise.resolve(3)], (a, b) => a + b));
+// const promises = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
+// const p = chainPromises(promises, (a, b) => a + b);
+//     p.then((res) => {
+//       console.log(res) // => 6
+//     });
 
 module.exports = {
   willYouMarryMe,
