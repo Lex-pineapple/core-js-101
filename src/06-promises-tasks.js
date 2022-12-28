@@ -106,15 +106,18 @@ function chainPromises(/* array, action */) {
   //   } catch (err) {
   //     return arr;
   //   }
-  // }, Promise.resolve([])).then((res) => res.reduce((acc, num) => action(acc, num), 0));
+  // }, Promise.resolve([])).then((res) => res.reduce((acc, num) => {
+  //   console.log(action(acc, num));
+  //   return action(acc, num);
+  // }, 0));
   throw new Error('Not implemented');
 }
 
 // const promises = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
 // const p = chainPromises(promises, (a, b) => a + b);
-//     p.then((res) => {
-//       console.log(res) // => 6
-//     });
+// p.then((res) => {
+//   console.log(res);
+// });
 
 module.exports = {
   willYouMarryMe,

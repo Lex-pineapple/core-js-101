@@ -147,18 +147,14 @@ function retry(func, attempts) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  // return function hehe(y) {
-  //   return logFunc(func, y);
-  // };
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return (...args) => {
+    logFunc(`${func.name}(${args.map((el) => JSON.stringify(el))}) starts`);
+    const result = func(...args);
+    logFunc(`${func.name}(${args.map((el) => JSON.stringify(el))}) ends`);
+    return result;
+  };
 }
-
-// const cosLogger = logger(Math.cos, console.log);
-// const result = cosLogger(Math.PI);
-// logger(Math.cos, console.log)(Math.PI);
-
-// console.log();
 
 
 /**
