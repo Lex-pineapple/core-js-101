@@ -110,8 +110,6 @@ function chainPromises(/* array, action */) {
   throw new Error('Not implemented');
 }
 
-// console.log(chainPromises([Promise.resolve(1), Promise.resolve(2),
-// Promise.resolve(3)], (a, b) => a + b));
 // const promises = [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)];
 // const p = chainPromises(promises, (a, b) => a + b);
 //     p.then((res) => {

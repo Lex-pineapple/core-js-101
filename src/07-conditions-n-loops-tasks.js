@@ -457,8 +457,21 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const rowCountOne = m1.length;
+  const colCountOne = m1[0].length;
+  const colCountTwo = m2[0].length;
+  const retVal = new Array(rowCountOne);
+  for (let i = 0; i < rowCountOne; i += 1) {
+    retVal[i] = new Array(colCountTwo);
+    for (let j = 0; j < colCountTwo; j += 1) {
+      retVal[i][j] = 0;
+      for (let k = 0; k < colCountOne; k += 1) {
+        retVal[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+  return retVal;
 }
 
 
@@ -492,8 +505,30 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const combs = [123, 456, 789, 147, 258, 369, 357, 159];
+  const nutParameter = position;
+  for (let i = 0; i < position.length; i += 1) {
+    if (position[i].length < 3) position[i].push('');
+    for (let j = 0; j < position[i].length; j += 1) {
+      if (position[i][j] === undefined) nutParameter[i][j] = '';
+    }
+  }
+  const flatBoard = position.flatMap((x) => x);
+  const flatBoardNum = flatBoard.map((x) => {
+    if (x === 'X') return 2;
+    if (x === '0') return 1;
+    return x;
+  });
+  const playerMoves = flatBoardNum.reduce((acc, curr, idx) => {
+    if (curr) {
+      acc[curr - 1] += idx + 1;
+    }
+    return acc;
+  }, ['', '']);
+  const winMove = combs.find((comb) => playerMoves.some((move) => comb.toString().split('').every((c) => move.includes(c))));
+  if (winMove) return flatBoard[winMove.toString()[0] - 1];
+  return undefined;
 }
 
 

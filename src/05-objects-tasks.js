@@ -117,6 +117,7 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
+
   element(/* value */) {
     throw new Error('Not implemented');
   },
@@ -142,6 +143,7 @@ const cssSelectorBuilder = {
   },
 
   combine(/* selector1, combinator, selector2 */) {
+    // return selector1;
     throw new Error('Not implemented');
   },
 };
